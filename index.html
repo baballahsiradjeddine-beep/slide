@@ -233,6 +233,62 @@
         .comp-table td { color: var(--text-light); }
         .comp-table .highlight { background: rgba(22, 163, 74, 0.1); font-weight: bold; color: var(--primary); border-radius: 15px; }
 
+        /* Professional 16:9 PDF Print styles */
+        @media print {
+            html, body {
+                background: #F8FAFC !important;
+                background-color: #F8FAFC !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                width: 297mm !important;
+                height: 167.0625mm !important;
+                overflow: visible !important;
+            }
+            .presentation {
+                display: block !important;
+                overflow: visible !important;
+                width: 100% !important;
+                height: auto !important;
+            }
+            .slide {
+                width: 297mm !important;
+                height: 167.0625mm !important;
+                page-break-after: always !important;
+                break-after: page !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                box-sizing: border-box !important;
+                padding: 2rem 5% !important;
+                position: relative !important;
+                transform: none !important;
+            }
+            .slide-content {
+                transform: none !important;
+            }
+            .anim-element {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+            }
+            .phone-3d, .card-3d {
+                transform: none !important;
+                animation: none !important;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important;
+            }
+            .float-badge {
+                animation: none !important;
+                transform: none !important;
+            }
+            .nav-dots, .ambient-light {
+                display: none !important;
+            }
+            @page {
+                size: 297mm 167.0625mm; /* Perfect 16:9 landscape */
+                margin: 0;
+            }
+        }
+
     </style>
 </head>
 <body>
