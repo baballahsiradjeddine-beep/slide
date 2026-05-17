@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DZ Wallet+ | Pitch Deck</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --primary: #16A34A; /* Modern Green */
+            --secondary: #0EA5E9; /* Modern Blue */
+            --text-main: #0F172A; /* Dark Slate */
+            --text-muted: #64748B;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --soft-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            --neon-shadow: 0 0 20px rgba(22, 163, 74, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            overflow: hidden;
+        }
+
+        /* Ambient Background */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(22, 163, 74, 0.08), transparent 30%),
+                radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.08), transparent 30%);
+        }
+
+        /* Horizontal Scroll Container */
+        .presentation {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            flex-direction: row; /* Native RTL */
+            z-index: 10;
+            position: relative;
+        }
+        .presentation::-webkit-scrollbar { display: none; }
+        .presentation { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .slide {
+            flex: 0 0 100vw;
+            width: 100vw;
+            height: 100vh;
+            scroll-snap-align: start;
+            padding: 4rem 8%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            perspective: 2000px;
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1400px;
+            z-index: 10;
+            transform-style: preserve-3d;
+        }
+
+        /* Typography */
+        h1 { font-size: 4.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 1rem; color: var(--text-main); }
+        h2 { font-size: 3rem; font-weight: 900; margin-bottom: 2rem; color: var(--text-main); }
+        p { font-size: 1.2rem; color: var(--text-muted); line-height: 1.6; }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 3D Glass Cards */
+        .card-3d {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 2.5rem;
+            position: relative;
+            transform-style: preserve-3d;
+            box-shadow: var(--soft-shadow);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        .card-3d::before {
+            content: ''; position: absolute; inset: 0; border-radius: 30px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 100%);
+            z-index: -1; pointer-events: none;
+        }
+        .card-3d:hover {
+            border-color: rgba(22, 163, 74, 0.4);
+            box-shadow: 0 30px 60px rgba(22, 163, 74, 0.1);
+        }
+        
+        .card-content {
+            transform: translateZ(50px);
+            pointer-events: none;
+        }
+
+        /* Grid Layouts */
+        .text-center { text-align: center !important; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+        .grid-6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+        /* Icon Boxes */
+        .icon-neon {
+            width: 70px; height: 70px;
+            border-radius: 20px;
+            background: rgba(22, 163, 74, 0.1);
+            color: var(--primary);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(22, 163, 74, 0.2);
+            transition: all 0.4s ease;
+        }
+        .card-3d:hover .icon-neon {
+            background: var(--primary); color: #FFFFFF;
+            box-shadow: 0 10px 20px rgba(22, 163, 74, 0.3);
+            transform: scale(1.1) translateZ(20px);
+        }
+
+        /* 3D Phone Mockup */
+        .phone-wrapper {
+            perspective: 1500px;
+            display: flex; justify-content: center; align-items: center;
+            position: relative;
+        }
+        .phone-3d {
+            width: 320px; height: 650px;
+            background: #FFFFFF;
+            border-radius: 45px;
+            border: 8px solid #E2E8F0;
+            box-shadow: -20px 20px 40px rgba(0,0,0,0.1), 0 0 30px rgba(22, 163, 74, 0.1);
+            position: relative; transform-style: preserve-3d;
+            transform: rotateY(-15deg) rotateX(10deg);
+            animation: floatPhone 6s ease-in-out infinite;
+        }
+        @keyframes floatPhone {
+            0%, 100% { transform: rotateY(-15deg) rotateX(10deg) translateY(0); }
+            50% { transform: rotateY(-5deg) rotateX(5deg) translateY(-20px); }
+        }
+        .phone-screen {
+            position: absolute; inset: 0; border-radius: 35px;
+            background: #F8FAFC; overflow: hidden;
+            display: flex; flex-direction: column; padding: 2rem 1.5rem;
+        }
+        .phone-notch {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 25px; background: #E2E8F0; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; z-index: 100;
+        }
+        .phone-ui-card {
+            background: #FFFFFF; border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03); border-radius: 20px;
+            padding: 1.5rem; margin-bottom: 1rem; transform: translateZ(30px); transition: all 0.3s;
+        }
+        .phone-ui-card.main {
+            background: linear-gradient(135deg, var(--primary), #22C55E);
+            color: #FFFFFF; margin-top: 2rem; border: none;
+            box-shadow: 0 10px 20px rgba(22, 163, 74, 0.3);
+        }
+
+        .float-badge {
+            position: absolute; background: rgba(255,255,255,0.85); backdrop-filter: blur(10px);
+            border: 1px solid rgba(22, 163, 74, 0.2); padding: 1rem 1.5rem; border-radius: 20px;
+            color: var(--text-main); font-weight: bold; display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05); transform: translateZ(100px);
+        }
+        .fb-1 { top: 20%; right: -60px; animation: fb1 4s infinite alternate; }
+        .fb-2 { bottom: 30%; left: -60px; animation: fb2 5s infinite alternate-reverse; }
+        @keyframes fb1 { 0% { transform: translateZ(100px) translateY(0); } 100% { transform: translateZ(100px) translateY(-20px); } }
+        @keyframes fb2 { 0% { transform: translateZ(100px) translateY(0); } 100% { transform: translateZ(100px) translateY(20px); } }
+
+        /* Entrance Animations */
+        .anim-element {
+            opacity: 0; transform: translateY(60px) scale(0.9) translateZ(-100px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .slide.active .anim-element {
+            opacity: 1; transform: translateY(0) scale(1) translateZ(0);
+        }
+        .d-1 { transition-delay: 0.1s; } .d-2 { transition-delay: 0.3s; }
+        .d-3 { transition-delay: 0.5s; } .d-4 { transition-delay: 0.7s; }
+
+        /* Stats Number styling */
+        .stat-number {
+            font-size: 4rem; font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Nav Dots */
+        .nav-dots {
+            position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 10px; z-index: 100; flex-direction: row-reverse;
+        }
+        .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: rgba(15, 23, 42, 0.15); cursor: pointer; transition: all 0.3s ease;
+        }
+        .dot.active {
+            background: var(--primary); box-shadow: 0 0 10px rgba(22, 163, 74, 0.5); transform: scale(1.5);
+        }
+
+        /* Comparison Table */
+        .comp-table { width: 100%; border-collapse: collapse; }
+        .comp-table th, .comp-table td { padding: 1.2rem; text-align: center; border-bottom: 1px solid var(--glass-border); }
+        .comp-table th { font-weight: 800; color: var(--text-dark); font-size: 1.1rem; }
+        .comp-table td { color: var(--text-light); }
+        .comp-table .highlight { background: rgba(22, 163, 74, 0.1); font-weight: bold; color: var(--primary); border-radius: 15px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="ambient-light"></div>
+    <div class="nav-dots" id="dots"></div>
+
+    <div class="presentation" id="presentation">
+
+        <!-- 1. Cover -->
+        <section class="slide" id="s1">
+            <div class="slide-content grid-2">
+                <div class="anim-element d-1" style="transform-style: preserve-3d;">
+                    <div style="transform: translateZ(30px);">
+                        <h1>DZ Wallet<span class="gradient-text">+</span></h1>
+                        <h2 style="font-size: 2.5rem;">أول محفظة إلكترونية ذكية في الجزائر</h2>
+                        <p style="font-size: 1.8rem; font-weight: bold; color: var(--text-main);">أموالك… أسرع، أذكى، وأكثر أمانًا.</p>
+                        <button class="card-3d" style="padding: 1rem 3rem; margin-top: 3rem; background: var(--primary); color: #FFF; border: none; font-size: 1.2rem; font-weight: bold; cursor: pointer; box-shadow: 0 15px 30px rgba(22, 163, 74, 0.3);">اكتشف المستقبل</button>
+                    </div>
+                </div>
+                <div class="phone-wrapper anim-element d-2">
+                    <div class="phone-3d">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <div style="display: flex; justify-content: space-between; color: var(--text-main); margin-top: 1rem;">
+                                <i class="fa-solid fa-bars"></i>
+                                <img src="https://ui-avatars.com/api/?name=DZ&background=16A34A&color=fff&rounded=true" width="30">
+                            </div>
+                            <div class="phone-ui-card main">
+                                <p style="font-size: 0.9rem; opacity: 0.9;">الرصيد المتاح</p>
+                                <h3 style="font-size: 2rem;">145,000 DZD</h3>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <div class="phone-ui-card" style="flex: 1; text-align: center;"><i class="fa-solid fa-paper-plane" style="color: var(--primary);"></i></div>
+                                <div class="phone-ui-card" style="flex: 1; text-align: center;"><i class="fa-solid fa-qrcode" style="color: var(--primary);"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="float-badge fb-1"><i class="fa-solid fa-bolt" style="color: var(--primary);"></i> دفع فوري</div>
+                    <div class="float-badge fb-2"><i class="fa-solid fa-shield" style="color: var(--secondary);"></i> أمان تام</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Introduction -->
+        <section class="slide" id="s2">
+            <div class="slide-content">
+                <h2 class="anim-element d-1" style="text-align: center;">مقدمة عن <span class="gradient-text">المشروع</span></h2>
+                <div class="grid-3" style="margin-top: 4rem;">
+                    <div class="card-3d anim-element d-2 3d-hover">
+                        <div class="card-content">
+                            <div class="icon-neon"><i class="fa-solid fa-chart-line"></i></div>
+                            <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">التحول نحو الاقتصاد الرقمي</h3>
+                            <p>دعم رؤية الجزائر في رقمنة المعاملات المالية وتقليل تداول النقد في السوق الموازي.</p>
+                        </div>
+                    </div>
+                    <div class="card-3d anim-element d-3 3d-hover">
+                        <div class="card-content">
+                            <div class="icon-neon"><i class="fa-solid fa-puzzle-piece"></i></div>
+                            <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">فجوة في السوق الجزائري</h3>
+                            <p>غياب حلول الدفع الفورية المستقلة التي تخدم التاجر والمواطن بمرونة وبدون تعقيدات بنكية.</p>
+                        </div>
+                    </div>
+                    <div class="card-3d anim-element d-4 3d-hover">
+                        <div class="card-content">
+                            <div class="icon-neon"><i class="fa-solid fa-lightbulb"></i></div>
+                            <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">DZ Wallet+ كحل مبتكر</h3>
+                            <p>تقديم محفظة ذكية متكاملة، تربط جميع الفاعلين في الاقتصاد لتبسيط الدفع اليومي.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Problem -->
+        <section class="slide" id="s3">
+            <div class="slide-content">
+                <h2 class="anim-element d-1" style="text-align: center;">المشاكل <span class="gradient-text">التي نعالجها</span></h2>
+                <div class="grid-6" style="margin-top: 3rem;">
+                    <div class="card-3d anim-element d-2 3d-hover" style="padding: 1.5rem; text-align: center;">
+                        <div class="card-content"><div class="icon-neon" style="margin: 0 auto 1rem;"><i class="fa-solid fa-money-bill-wave"></i></div><h3>الاعتماد على النقد</h3></div>
+                    </div>
+                    <div class="card-3d anim-element d-2 3d-hover" style="padding: 1.5rem; text-align: center;">
+                        <div class="card-content"><div class="icon-neon" style="margin: 0 auto 1rem;"><i class="fa-solid fa-credit-card"></i></div><h3>ضعف الدفع الإلكتروني</h3></div>
+                    </div>
+                    <div class="card-3d anim-element d-3 3d-hover" style="padding: 1.5rem; text-align: center;">
+                        <div class="card-content"><div class="icon-neon" style="margin: 0 auto 1rem;"><i class="fa-solid fa-hourglass-half"></i></div><h3>بطء التحويلات</h3></div>
+                    </div>
+                    <div class="card-3d anim-element d-3 3d-hover" style="padding: 1.5rem; text-align: center;">
+                        <div class="card-content"><div class="icon-neon" style="margin: 0 auto 1rem;"><i class="fa-solid fa-store-slash"></i></div><h3>صعوبة إدارة أموال التجار</h3></div>
+                    </div>
+                    <div class="card-3d anim-element d-4 3d-hover" style="padding: 1.5rem; text-align: center;">
+                        <div class="card-content"><div class="icon-neon" style="margin: 0 auto 1rem;"><i class="fa-solid fa-users-slash"></i></div><h3>نقص الشمول المالي</h3></div>
+                    </div>
+                    <div class="card-3d anim-element d-4 3d-hover" style="padding: 1.5rem; text-align: center;">
+                        <div class="card-content"><div class="icon-neon" style="margin: 0 auto 1rem;"><i class="fa-solid fa-wifi"></i></div><h3>غياب الدفع بدون إنترنت</h3></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Solution -->
+        <section class="slide" id="s4">
+            <div class="slide-content">
+                <h2 class="anim-element d-1" style="text-align: center;">الحلول <span class="gradient-text">المقدمة</span></h2>
+                <div class="grid-6" style="margin-top: 3rem;">
+                    <div class="card-3d anim-element d-2 3d-hover" style="padding: 1.5rem; text-align: center;">
+                        <div class="card-content"><div class="icon-neon" style="margin: 0 auto 1rem;"><i class="fa-solid fa-bolt"></i></div><h3>تحويل فوري</h3></div>
+                    </div>
+                    <div class="card-3d anim-element d-2 3d-hover" style="padding: 1.5rem; text-align: center;">
+                        <div class="card-content"><div class="icon-neon" style="margin: 0 auto 1rem;"><i class="fa-solid fa-qrcode"></i></div><h3>QR Code</h3></div>
+                    </div>
+                    <div class="card-3d anim-element d-3 3d-hover" style="padding: 1.5rem; text-align: center;">
+                        <div class="card-content"><div class="icon-neon" style="margin: 0 auto 1rem;"><i class="fa-solid fa-file-invoice"></i></div><h3>دفع الفواتير</h3></div>
+                    </div>
+                    <div class="card-3d anim-element d-3 3d-hover" style="padding: 1.5rem; text-align: center;">
+                        <div class="card-content"><div class="icon-neon" style="margin: 0 auto 1rem;"><i class="fa-solid fa-chart-pie"></i></div><h3>سجل مالي ذكي</h3></div>
+                    </div>
+                    <div class="card-3d anim-element d-4 3d-hover" style="padding: 1.5rem; text-align: center;">
+                        <div class="card-content"><div class="icon-neon" style="margin: 0 auto 1rem;"><i class="fa-solid fa-link"></i></div><h3>Blockchain</h3></div>
+                    </div>
+                    <div class="card-3d anim-element d-4 3d-hover" style="padding: 1.5rem; text-align: center;">
+                        <div class="card-content"><div class="icon-neon" style="margin: 0 auto 1rem;"><i class="fa-brands fa-bluetooth"></i></div><h3>Offline (NFC/QR)</h3></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Product (UI Demo) -->
+        <section class="slide" id="s5">
+            <div class="slide-content grid-2">
+                <div class="phone-wrapper anim-element d-1">
+                    <div class="phone-3d">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen" style="justify-content: center; align-items: center; text-align: center;">
+                            <i class="fa-solid fa-qrcode fa-5x" style="color: var(--primary); margin-bottom: 2rem;"></i>
+                            <h3 style="color: var(--text-main);">مسح للدفع</h3>
+                            <div style="width: 200px; height: 200px; border: 4px dashed var(--primary); border-radius: 20px; display:flex; align-items:center; justify-content:center; margin-top:1rem;">
+                                <i class="fa-solid fa-camera fa-2x" style="color: #cbd5e1;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="float-badge fb-1" style="top: 10%;"><i class="fa-solid fa-wallet"></i> Wallet balance</div>
+                    <div class="float-badge fb-2" style="bottom: 10%;"><i class="fa-solid fa-clock-rotate-left"></i> Transactions</div>
+                </div>
+                <div class="anim-element d-2" style="transform-style: preserve-3d;">
+                    <div style="transform: translateZ(30px);">
+                        <h2 style="font-size: 3.5rem;">تطبيق <span class="gradient-text">عالمي</span></h2>
+                        <div class="card-3d 3d-hover" style="margin-bottom: 1rem; padding: 1.5rem;">
+                            <div class="card-content"><h3><i class="fa-solid fa-chart-line text-gradient"></i> Dashboard تفاعلي</h3></div>
+                        </div>
+                        <div class="card-3d 3d-hover" style="margin-bottom: 1rem; padding: 1.5rem;">
+                            <div class="card-content"><h3><i class="fa-solid fa-qrcode text-gradient"></i> QR Payment سريع</h3></div>
+                        </div>
+                        <div class="card-3d 3d-hover" style="margin-bottom: 1rem; padding: 1.5rem;">
+                            <div class="card-content"><h3><i class="fa-solid fa-list-ul text-gradient"></i> Transactions فورية</h3></div>
+                        </div>
+                        <div class="card-3d 3d-hover" style="padding: 1.5rem;">
+                            <div class="card-content"><h3><i class="fa-solid fa-wallet text-gradient"></i> Wallet Balance محدث</h3></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Market -->
+        <section class="slide" id="s6">
+            <div class="slide-content">
+                <h2 class="anim-element d-1" style="text-align: center;">حجم <span class="gradient-text">السوق المستهدف</span></h2>
+                <div class="grid-3" style="margin-top: 4rem;">
+                    <div class="card-3d anim-element d-2 3d-hover" style="text-align: center;">
+                        <div class="card-content">
+                            <i class="fa-solid fa-users fa-3x" style="color: var(--primary); margin-bottom: 1rem;"></i>
+                            <h3>الأفراد</h3>
+                            <div class="stat-number">45M</div>
+                            <p>مستخدم محتمل لخدمات الدفع</p>
+                        </div>
+                    </div>
+                    <div class="card-3d anim-element d-3 3d-hover" style="text-align: center;">
+                        <div class="card-content">
+                            <i class="fa-solid fa-shop fa-3x" style="color: var(--secondary); margin-bottom: 1rem;"></i>
+                            <h3>التجار</h3>
+                            <div class="stat-number">3M</div>
+                            <p>نقاط بيع وشركات صغيرة</p>
+                        </div>
+                    </div>
+                    <div class="card-3d anim-element d-4 3d-hover" style="text-align: center;">
+                        <div class="card-content">
+                            <i class="fa-solid fa-building fa-3x" style="color: #F59E0B; margin-bottom: 1rem;"></i>
+                            <h3>الشركات</h3>
+                            <div class="stat-number">100K+</div>
+                            <p>مؤسسة تبحث عن إدارة مالية أسهل</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Competitive Advantage -->
+        <section class="slide" id="s7">
+            <div class="slide-content">
+                <h2 class="anim-element d-1" style="text-align: center;">الميزة <span class="gradient-text">التنافسية</span></h2>
+                <div class="card-3d anim-element d-2 3d-hover" style="margin-top: 3rem; padding: 0; overflow: hidden;">
+                    <div class="card-content">
+                        <table class="comp-table">
+                            <tr style="background: rgba(0,0,0,0.02);">
+                                <th>الميزة</th>
+                                <th>CCP / البنوك</th>
+                                <th>BaridiMob</th>
+                                <th>PayPal</th>
+                                <th class="highlight">DZ Wallet+</th>
+                            </tr>
+                            <tr>
+                                <td>Offline payments</td>
+                                <td><i class="fa-solid fa-xmark" style="color: #EF4444;"></i></td>
+                                <td><i class="fa-solid fa-xmark" style="color: #EF4444;"></i></td>
+                                <td><i class="fa-solid fa-xmark" style="color: #EF4444;"></i></td>
+                                <td class="highlight"><i class="fa-solid fa-check"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Smart merchant tools</td>
+                                <td>محدود</td>
+                                <td><i class="fa-solid fa-xmark" style="color: #EF4444;"></i></td>
+                                <td>متوفر</td>
+                                <td class="highlight"><i class="fa-solid fa-check"></i> (مخصص للسوق)</td>
+                            </tr>
+                            <tr>
+                                <td>Blockchain Security</td>
+                                <td><i class="fa-solid fa-xmark" style="color: #EF4444;"></i></td>
+                                <td><i class="fa-solid fa-xmark" style="color: #EF4444;"></i></td>
+                                <td><i class="fa-solid fa-xmark" style="color: #EF4444;"></i></td>
+                                <td class="highlight"><i class="fa-solid fa-check"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Local UX</td>
+                                <td>ضعيف</td>
+                                <td>متوسط</td>
+                                <td>غير مخصص للجزائر</td>
+                                <td class="highlight"><i class="fa-solid fa-check"></i> (بامتياز)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. Business Model -->
+        <section class="slide" id="s8">
+            <div class="slide-content">
+                <h2 class="anim-element d-1" style="text-align: center;">نموذج <span class="gradient-text">العمل التجاري</span></h2>
+                <div class="grid-4" style="margin-top: 4rem;">
+                    <div class="card-3d anim-element d-2 3d-hover">
+                        <div class="card-content text-center">
+                            <h1 style="color: var(--primary);">40%</h1>
+                            <h3>Commissions</h3>
+                            <p style="font-size: 1rem; margin-top: 1rem;">عمولات</p>
+                        </div>
+                    </div>
+                    <div class="card-3d anim-element d-2 3d-hover">
+                        <div class="card-content text-center">
+                            <h1 style="color: var(--secondary);">30%</h1>
+                            <h3>Subscriptions</h3>
+                            <p style="font-size: 1rem; margin-top: 1rem;">اشتراكات</p>
+                        </div>
+                    </div>
+                    <div class="card-3d anim-element d-3 3d-hover">
+                        <div class="card-content text-center">
+                            <h1 style="color: #F59E0B;">20%</h1>
+                            <h3>Services</h3>
+                            <p style="font-size: 1rem; margin-top: 1rem;">خدمات</p>
+                        </div>
+                    </div>
+                    <div class="card-3d anim-element d-3 3d-hover">
+                        <div class="card-content text-center">
+                            <h1 style="color: #EF4444;">10%</h1>
+                            <h3>Partnerships</h3>
+                            <p style="font-size: 1rem; margin-top: 1rem;">شراكات</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Impact -->
+        <section class="slide" id="s9">
+            <div class="slide-content">
+                <h2 class="anim-element d-1" style="text-align: center;">الأثر <span class="gradient-text">المتوقع</span></h2>
+                <div class="grid-4" style="margin-top: 4rem;">
+                    <div class="card-3d anim-element d-2 3d-hover" style="text-align: center;">
+                        <div class="card-content">
+                            <div class="icon-neon" style="margin: 0 auto 1.5rem;"><i class="fa-solid fa-globe"></i></div>
+                            <h3>اقتصاد رقمي</h3>
+                        </div>
+                    </div>
+                    <div class="card-3d anim-element d-2 3d-hover" style="text-align: center;">
+                        <div class="card-content">
+                            <div class="icon-neon" style="margin: 0 auto 1.5rem;"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                            <h3>تقليل الكاش</h3>
+                        </div>
+                    </div>
+                    <div class="card-3d anim-element d-3 3d-hover" style="text-align: center;">
+                        <div class="card-content">
+                            <div class="icon-neon" style="margin: 0 auto 1.5rem;"><i class="fa-solid fa-users"></i></div>
+                            <h3>شمول مالي</h3>
+                        </div>
+                    </div>
+                    <div class="card-3d anim-element d-3 3d-hover" style="text-align: center;">
+                        <div class="card-content">
+                            <div class="icon-neon" style="margin: 0 auto 1.5rem;"><i class="fa-solid fa-briefcase"></i></div>
+                            <h3>دعم الشركات</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. Technology -->
+        <section class="slide" id="s10">
+            <div class="slide-content text-center">
+                <h2 class="anim-element d-1">التكنولوجيا <span class="gradient-text">المستعملة</span></h2>
+                <div class="anim-element d-2" style="display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; margin-top: 4rem;">
+                    <div style="animation: fb1 4s infinite alternate;"><div class="card-3d" style="padding: 2rem;"><i class="fa-solid fa-wallet fa-3x" style="color: var(--primary);"></i><h3 style="margin-top: 1rem;">FinTech</h3></div></div>
+                    <div style="animation: fb2 5s infinite alternate;"><div class="card-3d" style="padding: 2rem;"><i class="fa-solid fa-link fa-3x" style="color: var(--secondary);"></i><h3 style="margin-top: 1rem;">Blockchain</h3></div></div>
+                    <div style="animation: fb1 6s infinite alternate;"><div class="card-3d" style="padding: 2rem;"><i class="fa-solid fa-brain fa-3x" style="color: #F59E0B;"></i><h3 style="margin-top: 1rem;">AI</h3></div></div>
+                    <div style="animation: fb2 4.5s infinite alternate;"><div class="card-3d" style="padding: 2rem;"><i class="fa-solid fa-cloud fa-3x" style="color: #8B5CF6;"></i><h3 style="margin-top: 1rem;">Cloud</h3></div></div>
+                    <div style="animation: fb1 5.5s infinite alternate;"><div class="card-3d" style="padding: 2rem;"><i class="fa-solid fa-qrcode fa-3x" style="color: #EF4444;"></i><h3 style="margin-top: 1rem;">QR</h3></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 11. Vision -->
+        <section class="slide" id="s11">
+            <div class="slide-content">
+                <h2 class="anim-element d-1" style="text-align: center;">الرؤية <span class="gradient-text">المستقبلية</span></h2>
+                <div class="grid-4" style="margin-top: 4rem;">
+                    <div class="card-3d anim-element d-2 3d-hover">
+                        <div class="card-content">
+                            <h1 style="color: var(--text-muted); opacity: 0.5;">01</h1>
+                            <h3 style="font-size: 1.5rem;">بنك رقمي</h3>
+                            <p style="font-size: 1rem; margin-top: 0.5rem;">التحول إلى مؤسسة مالية متكاملة الخدمات.</p>
+                        </div>
+                    </div>
+                    <div class="card-3d anim-element d-3 3d-hover">
+                        <div class="card-content">
+                            <h1 style="color: var(--text-muted); opacity: 0.5;">02</h1>
+                            <h3 style="font-size: 1.5rem;">منصة وطنية</h3>
+                            <p style="font-size: 1rem; margin-top: 0.5rem;">ربط كل مؤسسات الدولة لخدمات الدفع.</p>
+                        </div>
+                    </div>
+                    <div class="card-3d anim-element d-4 3d-hover">
+                        <div class="card-content">
+                            <h1 style="color: var(--text-muted); opacity: 0.5;">03</h1>
+                            <h3 style="font-size: 1.5rem;">تحويلات دولية</h3>
+                            <p style="font-size: 1rem; margin-top: 0.5rem;">استقبال الأموال من كل أنحاء العالم.</p>
+                        </div>
+                    </div>
+                    <div class="card-3d anim-element d-4 3d-hover">
+                        <div class="card-content">
+                            <h1 style="color: var(--text-muted); opacity: 0.5;">04</h1>
+                            <h3 style="font-size: 1.5rem;">نظام مالي متكامل</h3>
+                            <p style="font-size: 1rem; margin-top: 0.5rem;">قروض، ادخار، واستثمارات ذكية.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 12. Team -->
+        <section class="slide" id="s12">
+            <div class="slide-content text-center">
+                <h2 class="anim-element d-1">الفريق</h2>
+                <div class="card-3d anim-element d-2 3d-hover" style="display: inline-block; text-align: center; padding: 3rem; max-width: 400px; margin-top: 3rem;">
+                    <div class="card-content">
+                        <img src="https://ui-avatars.com/api/?name=KR&background=16A34A&color=fff&rounded=true&size=100" style="border: 4px solid #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-bottom: 1rem;">
+                        <h3 style="font-size: 2rem;">كشمير رجم</h3>
+                        <p style="color: var(--primary); font-weight: bold; margin-bottom: 1rem;">المؤسس</p>
+                        <p style="font-size: 1rem;">ماستر قانون أعمال – جامعة أم البواقي</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 13. Closing -->
+        <section class="slide" id="s13">
+            <div class="slide-content text-center">
+                <div class="anim-element d-1" style="margin-bottom: 3rem;">
+                    <i class="fa-solid fa-wallet fa-4x text-gradient" style="margin-bottom: 1rem;"></i>
+                    <h1 style="font-size: 5rem;">مع DZ Wallet+...</h1>
+                    <h2 style="font-size: 3rem;">المستقبل المالي <span class="gradient-text">يبدأ الآن</span></h2>
+                </div>
+                
+                <div class="anim-element d-2">
+                    <button class="card-3d" style="padding: 1.5rem 4rem; background: var(--primary); border: none; color: #FFF; font-size: 1.5rem; font-weight: bold; cursor: pointer; box-shadow: 0 15px 30px rgba(22,163,74,0.3); transition: transform 0.3s; margin-top: 2rem;">ابدأ الاستثمار معنا</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Intersection Observer for Slide Entrance Animations
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('dots');
+
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if(index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => slides[index].scrollIntoView({ behavior: 'smooth' }));
+            dotsContainer.appendChild(dot);
+        });
+        const dots = document.querySelectorAll('.dot');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    const index = Array.from(slides).indexOf(entry.target);
+                    dots.forEach(d => d.classList.remove('active'));
+                    dots[index].classList.add('active');
+                } else {
+                    entry.target.classList.remove('active'); // Reset animation when out of view
+                }
+            });
+        }, { threshold: 0.5 });
+
+        slides.forEach(slide => observer.observe(slide));
+
+        // Advanced 3D Mouse Tracking for Cards
+        const cards = document.querySelectorAll('.3d-hover');
+        
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+            
+            cards.forEach(card => {
+                if(card.closest('.slide').classList.contains('active')) {
+                    card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+                }
+            });
+        });
+
+        // Keyboard Navigation (Native RTL fixes)
+        document.addEventListener('keydown', (e) => {
+            const container = document.querySelector('.presentation');
+            const w = window.innerWidth;
+            // For RTL with flex-direction: row, scrolling right (negative deltaX logic usually, but scrollBy left handles it natively)
+            if (e.key === 'ArrowRight') container.scrollBy({ left: w, behavior: 'smooth' });
+            if (e.key === 'ArrowLeft') container.scrollBy({ left: -w, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
