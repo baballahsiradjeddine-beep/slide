@@ -289,6 +289,84 @@
             }
         }
 
+        /* Responsive Media Queries */
+        @media (max-width: 1024px) {
+            .slide {
+                padding: 2rem 5% !important;
+                height: 100vh !important;
+                overflow-y: auto !important;
+                display: flex !important;
+                align-items: center !important;
+            }
+            .slide-content {
+                padding-bottom: 4rem;
+            }
+            h1 { font-size: 3rem !important; }
+            h2 { font-size: 2rem !important; }
+            p { font-size: 1rem !important; }
+            
+            .grid-2 { grid-template-columns: 1fr !important; gap: 2rem !important; }
+            .grid-3 { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+            .grid-4 { grid-template-columns: repeat(2, 1fr) !important; gap: 1.2rem !important; }
+            .grid-6 { grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
+
+            .phone-3d {
+                width: 260px !important;
+                height: 520px !important;
+            }
+            .phone-wrapper {
+                margin-top: 2rem;
+            }
+            .float-badge {
+                padding: 0.6rem 1rem !important;
+                font-size: 0.9rem !important;
+            }
+            .fb-1 { right: -20px !important; }
+            .fb-2 { left: -20px !important; }
+            
+            .comp-table th, .comp-table td {
+                padding: 0.6rem !important;
+                font-size: 0.8rem !important;
+            }
+            .comp-table th { font-size: 0.9rem !important; }
+
+            .card-3d {
+                padding: 1.5rem !important;
+                border-radius: 20px !important;
+            }
+            .icon-neon {
+                width: 50px !important;
+                height: 50px !important;
+                font-size: 1.5rem !important;
+                margin-bottom: 1rem !important;
+            }
+            .stat-number {
+                font-size: 3rem !important;
+            }
+            .nav-dots {
+                bottom: 1rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.2rem !important; }
+            h2 { font-size: 1.6rem !important; }
+            p { font-size: 0.9rem !important; }
+            
+            .grid-4 { grid-template-columns: 1fr !important; }
+            .grid-6 { grid-template-columns: 1fr !important; }
+            
+            .phone-3d {
+                width: 220px !important;
+                height: 440px !important;
+            }
+            .comp-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+
     </style>
 </head>
 <body>
